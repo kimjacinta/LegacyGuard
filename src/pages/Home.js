@@ -1,49 +1,43 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
+import React, {useState, useEffect} from 'react';
 import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-
-const CustomTextField = ({ id, label, defaultValue }) => (
-  <TextField
-    required
-    id={id}
-    label={label}
-    defaultValue={defaultValue}
-  />
-);
-
-const CalculateMinimumFI= ({}) => 
-{
-  // If MinimumFi2 progress last cell is smaller than 1 (true), then greater than 80 years
-
-  // if false, then 
-  
-}
+import { Box, Grid } from '@mui/material';
+import FinancialInputFields from '../components/FinancialInputFields';
+import NetWorthChart from '../components/NetWorthChart';
 
 function Home() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:3000/test') 
+      .then((res) => res.text())
+      .then((data) => {
+        return JSON.parse(data);
+      })
+      .then((jsonData) => setMessage(jsonData.message))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
 
   return (
     <div>
-      <Typography variant="h4" component="h4" gutterBottom>
-          Financial Independence Calculator
-      </Typography>
+      <Box sx={{ flexGrow: 1, padding: 3}}>
+      <Grid container alignItems="center" justifyContent="center" spacing={2}>
 
-      <CustomTextField id="outlined-required" label="Birth Date" />
-      <CustomTextField id="outlined-required" label="Monthly Income" />
-      <CustomTextField id="outlined-required" label="Initial Savings" />
-      <CustomTextField id="outlined-required" label="Accelerated Savings" />
-      <CustomTextField id="outlined-required" label="Initial Liquidity"  />
-      <CustomTextField id="outlined-required" label="Lifestyle Floor" />
-      <CustomTextField id="outlined-required" label="Inflation (Expenses)" />
-      <CustomTextField id="outlined-required" label="Income Growth" />
-      <CustomTextField id="outlined-required" label="First Deposit Date" />
-      <CustomTextField id="outlined-required" label="Start Investing At" />
-      <CustomTextField id="outlined-required" label="Start Investing After" />
-      <CustomTextField id="outlined-required" label="Total Return (+ specs)" />
-      <CustomTextField id="outlined-required" label="Drawable Return" />
-      <CustomTextField id="outlined-required" label="Minimum FI" />
-      <CustomTextField id="outlined-required" label="Ideal FI" />
-      <CustomTextField id="outlined-required" label="Retirement Age" />
+      <Grid item xs={12}>
+      <Typography variant="h4" component="h4" gutterBottom/>
+      </Grid>
+
+      <h1>{message}</h1>
+
+      <Grid item xs={12}>
+      <FinancialInputFields/>
+      </Grid>
+
+      <Grid item xs={12}>
+      <NetWorthChart/>
+      </Grid>
+      
+      </Grid>
+      </Box>
     </div>
   );
 }

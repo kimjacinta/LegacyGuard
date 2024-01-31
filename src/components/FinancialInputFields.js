@@ -20,9 +20,7 @@ const CustomTextField = ({ id, label, defaultValue, onChange }) => (
     </Grid>
   );
 
-function FinancialInputFields() {
-    const [message, setMessage] = useState('');
-    // State
+  const FinancialInputFields = (props) => {
     const [birthDateInput, setBirthDateInput] = useState("");
     const [totalinvestedInput, setTotalInvestedInput] = useState("");
     const [monthlyContributionInput, setMonthlyContributionInput] = useState("");
@@ -51,7 +49,7 @@ function FinancialInputFields() {
         body: JSON.stringify(requestData)
         })
         .then((res) => res.json())
-        .then((jsonData) => setMessage(jsonData.message))
+        .then((jsonData) => props.setNetWorthData(jsonData))
         .catch((error) => console.error('Error fetching data:', error))}
 
   return (

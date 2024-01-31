@@ -5,17 +5,7 @@ import FinancialInputFields from '../components/FinancialInputFields';
 import NetWorthChart from '../components/NetWorthChart';
 
 function Home() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch('http://localhost:3000/test') 
-      .then((res) => res.text())
-      .then((data) => {
-        return JSON.parse(data);
-      })
-      .then((jsonData) => setMessage(jsonData.message))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+  const [netWorthData, setNetWorthData] = useState([]);
 
   return (
     <div>
@@ -26,14 +16,12 @@ function Home() {
       <Typography variant="h4" component="h4" gutterBottom/>
       </Grid>
 
-      <h1>{message}</h1>
-
       <Grid item xs={12}>
-      <FinancialInputFields/>
+      <FinancialInputFields setNetWorthData={setNetWorthData} />
       </Grid>
 
       <Grid item xs={12}>
-      <NetWorthChart/>
+      <NetWorthChart data={netWorthData} />
       </Grid>
       
       </Grid>
